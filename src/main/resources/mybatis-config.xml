@@ -26,6 +26,8 @@
     </environments>
 
     <mappers>
-        <mapper resource="org/example/simple/mapper/CountryMapper.xml"/>
+        <!--    直接扫描整个包下面所有的xml文件    -->
+        <package name="org.example.simple.mapper"/>
+<!--        <mapper resource="org/example/simple/mapper/CountryMapper.xml"/>-->
     </mappers>
 </configuration>

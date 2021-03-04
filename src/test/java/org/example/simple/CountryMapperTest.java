@@ -12,25 +12,14 @@ import java.io.IOException;
 import java.io.Reader;
 import java.util.List;
 
-public class CountryMapperTest {
-    private static SqlSessionFactory sqlSessionFactory;
+public class CountryMapperTest extends BaseMapperTest{
 
-    @BeforeClass
-    public static void init(){
-        try {
-            Reader reader = Resources.getResourceAsReader("mybatis-config.xml");
-            sqlSessionFactory = new SqlSessionFactoryBuilder().build(reader);
-            reader.close();
-        } catch (IOException ignore) {
-            ignore.printStackTrace();
-        }
-    }
 
     @Test
     public void testSelectAll(){
-        SqlSession sqlSession = sqlSessionFactory.openSession();
+        SqlSession sqlSession = getSqlSession();
         try {
-            List<Country> countryList = sqlSession.selectList("selectAll");
+            List<Country> countryList = sqlSession.selectList("org.example.simple.mapper.CountryMapper.selectAll");
             printCountryList(countryList);
         } finally {
             sqlSession.close();
