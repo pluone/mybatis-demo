@@ -34,7 +34,7 @@
 
         <javaClientGenerator type="XMLMAPPER" targetPackage="org.example.simple.mapper"  targetProject="src/main/java"/>
 
-        <table tableName="country">
+        <table tableName="sys_privilege">
             <generatedKey column="id" sqlStatement="MySql"/>
         </table>
     </context>

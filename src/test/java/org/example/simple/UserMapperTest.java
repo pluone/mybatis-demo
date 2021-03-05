@@ -2,6 +2,7 @@ package org.example.simple;
 
 import org.apache.ibatis.session.SqlSession;
 import org.example.simple.mapper.UserMapper;
+import org.example.simple.model.SysPrivilege;
 import org.example.simple.model.SysRole;
 import org.example.simple.model.SysUser;
 import org.junit.Assert;
@@ -47,7 +48,7 @@ public class UserMapperTest extends BaseMapperTest {
     }
 
     @Test
-    public void testSelectRolesByUserId(){
+    public void testSelectRolesByUserId() {
         SqlSession sqlSession = getSqlSession();
         try {
             UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
@@ -64,7 +65,7 @@ public class UserMapperTest extends BaseMapperTest {
     }
 
     @Test
-    public void testInsert(){
+    public void testInsert() {
         SqlSession sqlSession = getSqlSession();
         try {
             UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
@@ -75,7 +76,7 @@ public class UserMapperTest extends BaseMapperTest {
             user.setUserEmail("test@mybatis.tk");
             user.setUserInfo("test info");
             //正常情况下应该读入一张图片存到 byte 数组中
-            user.setHeadImg(new byte[]{1,2,3});
+            user.setHeadImg(new byte[]{1, 2, 3});
             user.setCreateTime(new Date());
             //将新建的对象插入数据库中，特别注意，这里的返回值 result 是执行的 SQL 影响的行数
             int result = userMapper.insert(user);
@@ -94,7 +95,7 @@ public class UserMapperTest extends BaseMapperTest {
     }
 
     @Test
-    public void testInsert2(){
+    public void testInsert2() {
         SqlSession sqlSession = getSqlSession();
         try {
             UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
@@ -104,7 +105,7 @@ public class UserMapperTest extends BaseMapperTest {
             user.setUserPassword("123456");
             user.setUserEmail("test@mybatis.tk");
             user.setUserInfo("test info");
-            user.setHeadImg(new byte[]{1,2,3});
+            user.setHeadImg(new byte[]{1, 2, 3});
             user.setCreateTime(new Date());
             int result = userMapper.insert2(user);
             //只插入 1 条数据
@@ -120,7 +121,7 @@ public class UserMapperTest extends BaseMapperTest {
     }
 
     @Test
-    public void testUpdateById(){
+    public void testUpdateById() {
         SqlSession sqlSession = getSqlSession();
         try {
             UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
@@ -151,7 +152,7 @@ public class UserMapperTest extends BaseMapperTest {
     }
 
     @Test
-    public void testDeleteById(){
+    public void testDeleteById() {
         SqlSession sqlSession = getSqlSession();
         try {
             UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
@@ -184,7 +185,7 @@ public class UserMapperTest extends BaseMapperTest {
     }
 
     @Test
-    public void testSelectRolesByUserIdAndRoleEnabled(){
+    public void testSelectRolesByUserIdAndRoleEnabled() {
         SqlSession sqlSession = getSqlSession();
         try {
             UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
@@ -201,7 +202,7 @@ public class UserMapperTest extends BaseMapperTest {
     }
 
     @Test
-    public void testSelectByUser(){
+    public void testSelectByUser() {
         SqlSession sqlSession = getSqlSession();
         try {
             UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
@@ -229,7 +230,7 @@ public class UserMapperTest extends BaseMapperTest {
     }
 
     @Test
-    public void testUpdateByIdSelective(){
+    public void testUpdateByIdSelective() {
         SqlSession sqlSession = getSqlSession();
         try {
             UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
@@ -257,7 +258,7 @@ public class UserMapperTest extends BaseMapperTest {
     }
 
     @Test
-    public void testInsert2Selective(){
+    public void testInsert2Selective() {
         SqlSession sqlSession = getSqlSession();
         try {
             UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
@@ -281,7 +282,7 @@ public class UserMapperTest extends BaseMapperTest {
     }
 
     @Test
-    public void testSelectByIdOrUserName(){
+    public void testSelectByIdOrUserName() {
         SqlSession sqlSession = getSqlSession();
         try {
             UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
@@ -306,7 +307,7 @@ public class UserMapperTest extends BaseMapperTest {
     }
 
     @Test
-    public void testSelectByIdList(){
+    public void testSelectByIdList() {
         SqlSession sqlSession = getSqlSession();
         try {
             UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
@@ -323,13 +324,13 @@ public class UserMapperTest extends BaseMapperTest {
     }
 
     @Test
-    public void testInsertList(){
+    public void testInsertList() {
         SqlSession sqlSession = getSqlSession();
         try {
             UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
             //创建一个 user 对象
             List<SysUser> userList = new ArrayList<SysUser>();
-            for(int i = 0; i < 2; i++){
+            for (int i = 0; i < 2; i++) {
                 SysUser user = new SysUser();
                 user.setUserName("test" + i);
                 user.setUserPassword("123456");
@@ -339,7 +340,7 @@ public class UserMapperTest extends BaseMapperTest {
             //将新建的对象批量插入数据库中，特别注意，这里的返回值 result 是执行的 SQL 影响的行数
             int result = userMapper.insertList(userList);
             Assert.assertEquals(2, result);
-            for(SysUser user : userList){
+            for (SysUser user : userList) {
                 System.out.println(user.getId());
             }
         } finally {
@@ -351,7 +352,7 @@ public class UserMapperTest extends BaseMapperTest {
     }
 
     @Test
-    public void testUpdateByMap(){
+    public void testUpdateByMap() {
         SqlSession sqlSession = getSqlSession();
         try {
             UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
@@ -368,6 +369,98 @@ public class UserMapperTest extends BaseMapperTest {
         } finally {
             //为了不影响数据库中的数据导致其他测试失败，这里选择回滚
             sqlSession.rollback();
+            //不要忘记关闭 sqlSession
+            sqlSession.close();
+        }
+    }
+
+    @Test
+    public void testSelectUserAndRoleById() {
+        //获取 sqlSession
+        SqlSession sqlSession = getSqlSession();
+        try {
+            //获取 UserMapper 接口
+            UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
+            //特别注意，在我们测试数据中，id = 1L 的用户有两个角色
+            //由于后面覆盖前面的，因此只能得到最后一个角色
+            //我们这里使用只有一个角色的用户（id = 1001L）
+            //可以用 selectUserAndRoleById2 替换进行测试
+//            SysUser user = userMapper.selectUserAndRoleById(1001L);
+            SysUser user = userMapper.selectUserAndRoleById2(1001L);
+            //user 不为空
+            Assert.assertNotNull(user);
+            //user.role 也不为空
+            Assert.assertNotNull(user.getRole());
+        } finally {
+            //不要忘记关闭 sqlSession
+            sqlSession.close();
+        }
+    }
+
+    @Test
+    public void testSelectUserAndRoleByIdSelect() {
+        //获取 sqlSession
+        SqlSession sqlSession = getSqlSession();
+        try {
+            //获取 UserMapper 接口
+            UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
+            //特别注意，在我们测试数据中，id = 1L 的用户有两个角色
+            //由于后面覆盖前面的，因此只能得到最后一个角色
+            //我们这里使用只有一个角色的用户（id = 1001L）
+            SysUser user = userMapper.selectUserAndRoleByIdSelect(1001L);
+            //user 不为空
+            Assert.assertNotNull(user);
+            //user.role 也不为空
+//            System.out.println("调用 user.equals(null)");
+//            user.equals(null);
+            System.out.println("调用 user.getRole()");
+            Assert.assertNotNull(user.getRole());
+        } finally {
+            //不要忘记关闭 sqlSession
+            sqlSession.close();
+        }
+    }
+
+    @Test
+    public void testSelectAllUserAndRoles() {
+        //获取 sqlSession
+        SqlSession sqlSession = getSqlSession();
+        try {
+            //获取 UserMapper 接口
+            UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
+            List<SysUser> userList = userMapper.selectAllUserAndRoles();
+            System.out.println("用户数：" + userList.size());
+            for (SysUser user : userList) {
+                System.out.println("用户名：" + user.getUserName());
+                for (SysRole role : user.getRoleList()) {
+                    System.out.println("角色名：" + role.getRoleName());
+                    for (SysPrivilege privilege : role.getPrivilegeList()) {
+                        System.out.println("权限名：" + privilege.getPrivilegeName());
+                    }
+                }
+            }
+        } finally {
+            //不要忘记关闭 sqlSession
+            sqlSession.close();
+        }
+    }
+
+    @Test
+    public void testSelectUserAndRolesSelect() {
+        //获取 sqlSession
+        SqlSession sqlSession = getSqlSession();
+        try {
+            //获取 UserMapper 接口
+            UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
+            SysUser user = userMapper.selectUserAndRolesSelect(1L);
+            System.out.println("用户名：" + user.getUserName());
+            for (SysRole role : user.getRoleList()) {
+                System.out.println("角色名：" + role.getRoleName());
+                for (SysPrivilege privilege : role.getPrivilegeList()) {
+                    System.out.println("权限名：" + privilege.getPrivilegeName());
+                }
+            }
+        } finally {
             //不要忘记关闭 sqlSession
             sqlSession.close();
         }
