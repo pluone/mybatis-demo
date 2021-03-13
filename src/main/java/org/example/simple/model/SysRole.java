@@ -17,7 +17,7 @@ public class SysRole {
     /**
      * 有效标志
      */
-    private Integer enabled;
+    private EnabledStateEnum enabled;
     /**
      * 创建人
      */
@@ -30,4 +30,20 @@ public class SysRole {
     private SysUser user;
 
     private List<SysPrivilege> privilegeList;
+
+    public enum EnabledStateEnum {
+        DISABLED(0),
+        ENABLED(1),
+        ;
+
+        private int state;
+
+        EnabledStateEnum(int state) {
+            this.state = state;
+        }
+
+        public int getState() {
+            return state;
+        }
+    }
 }
