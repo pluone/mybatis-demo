@@ -3,12 +3,16 @@ package org.example.simple.model;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
 @Getter
 @Setter
-public class SysRole {
+public class SysRole implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
     private Long id;
     /**
      * 角色名

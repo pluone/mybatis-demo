@@ -3,12 +3,13 @@ package org.example.simple.model;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
 @Getter
 @Setter
-public class SysUser {
+public class SysUser implements Serializable {
     /**
      * 用户ID
      */

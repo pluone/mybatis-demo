@@ -2,6 +2,9 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="org.example.simple.mapper.RoleMapper">
+    <!--  配置缓存  -->
+    <cache eviction="FIFO" flushInterval="60000" size="512" readOnly="false"/>
+
     <resultMap id="roleMap" type="org.example.simple.model.SysRole">
         <id column="id" jdbcType="BIGINT" property="id" />
         <result column="role_name" jdbcType="VARCHAR" property="roleName" />
@@ -52,4 +55,13 @@
                  inner join sys_user_role ur on ur.role_id = r.id
         where ur.user_id = #{userId}
     </select>
+
+    <update id="updateById">
+        update sys_role
+            set role_name = #{roleName},
+            enabled = #{enabled},
+            create_by = #{createBy},
+            create_time = #{createTime, jdbcType=TIMESTAMP}
+            where id = #{id}
+    </update>
 </mapper>
