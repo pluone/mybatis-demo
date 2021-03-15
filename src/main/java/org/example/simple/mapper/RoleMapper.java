@@ -31,4 +31,10 @@ public interface RoleMapper {
 //            "where id = #{id}"
 //    })
     int updateById(SysRole sysRole);
+
+    @ResultMap("roleMap")
+    @Select("select * from sys_role")
+    List<SysRole> selectAll();
+
+    List<SysRole> selectAll(RowBounds rowBounds);
 }

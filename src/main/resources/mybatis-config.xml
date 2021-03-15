@@ -21,6 +21,11 @@
         <typeHandler handler="org.example.simple.typehandler.EnabledTypeHandler"
                      javaType="org.example.simple.model.SysRole$EnabledStateEnum"/>
     </typeHandlers>
+    <plugins>
+        <plugin interceptor="org.example.simple.plugin.PageInterceptor">
+            <property name="dialect" value="org.example.simple.plugin.MySqlDialect"/>
+        </plugin>
+    </plugins>
     <environments default="development">
         <environment id="development">
             <transactionManager type="JDBC">
